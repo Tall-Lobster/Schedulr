@@ -1,0 +1,16 @@
+{
+  "name": "schedulr",
+  "version": "1.0.0",
+  "description": "Slack bot to help you organize and optimize your schedule that fits you best.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "Hadi Badawi, Christopher Batu, Amanpreet Gill, Hayden Hoffman",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "slackbots": "^1.2.0"
+  }
+}
