@@ -5,17 +5,18 @@ const readline = require('readline');
 const {google} = require('googleapis');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/calendar.readonly', 'https://www.googleapis.com/auth/calendar.events'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = 'token.json';
+console.log(TOKEN_PATH);
 
-// Load client secrets from a local file.
 fs.readFile('APIs/credentials.json', (err, content) => {
     if (err) return console.log('Error loading client secret file:', err);
     // Authorize a client with credentials, then call the Google Calendar API.
     authorize(JSON.parse(content), listEvents);
+    authorize(JSON.parse(content), createEvent);
 });
 
 /**
@@ -72,6 +73,32 @@ function getAccessToken(oAuth2Client, callback) {
  * Lists the next 10 events on the user's primary calendar.
  * @param {google.auth.OAuth2} auth An authorized OAuth2 client.
  */
+var event = {
+    'summary': 'Google I/O 2015',
+    'location': '800 Howard St., San Francisco, CA 94103',
+    'description': 'A chance to hear more about Google\'s developer products.',
+    'start': {
+        'dateTime': '2019-11-25T09:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+    },
+    'end': {
+        'dateTime': '2019-11-25T17:00:00-07:00',
+        'timeZone': 'America/Los_Angeles',
+    }
+};
+function createEvent(auth) {
+    const calendar = google.calendar({version: 'v3', auth});
+    calendar.events.insert({
+        calendarId: 'primary',
+        resource: event,
+    }, function(err, event) {
+        if (err) {
+            console.log('There was an error contacting the Calendar service: ' + err);
+            return;
+        }
+        console.log('Event created: %s', event.htmlLink);
+    });
+}
 function listEvents(auth) {
     const calendar = google.calendar({version: 'v3', auth});
     calendar.events.list({
