@@ -120,14 +120,3 @@ bot.on('message', (data) => {
         bot.postMessage("DQWU0P9BJ", "Joe Mama");
     }
 })
-
-// // Message Handler
-// bot.on('message', data => {
-//     if (data.type !== 'message') {
-//         return;
-//     }
-//
-//     handleMessage(data.text);
-// });
-
-// Response to Data
